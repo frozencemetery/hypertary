@@ -5,6 +5,7 @@ from wsgiref.simple_server import make_server
 
 import backend_wsgi as backend
 
+# print help message and exit
 def help():
   print "syntax: " + sys.argv[0] + " [[HOST]:[PORT]]"
   print "defaults to port 8080 and host \"\""

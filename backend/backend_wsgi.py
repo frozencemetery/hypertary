@@ -2,6 +2,7 @@ import json
 
 db = None # global
 
+# read the db in from disk
 def loaddb(dblocat="backend.json"):
   global db
 
@@ -14,6 +15,7 @@ def loaddb(dblocat="backend.json"):
     pass
   return
 
+# write out the db
 def writedb(dblocat="backend.json"):
   global db
   if not db:
@@ -24,15 +26,18 @@ def writedb(dblocat="backend.json"):
     pass
   return True
 
+# remove extraneous slashes from the path
 def sanitize_path(path):
   newpath = path.split("/")
   newpath = filter(lambda x: x != "", newpath)
   return "/" + "/".join(newpath)
 
+# complain at the user
 def bad_request(start_response, errorstr):
   start_response("400 Bad Request", [("content-type", "text/plain")])
   return errorstr
 
+# read services list
 def services(start_response):
   global db
   if not db:
@@ -43,6 +48,7 @@ def services(start_response):
                  [("content-type", "application/json; charset=utf-8")])
   return json.dumps(db)
 
+# add a service
 def add_service(env, start_response):
   global db
 
@@ -66,6 +72,7 @@ def add_service(env, start_response):
     return bad_request(start_response, "Malformed service add attempt!\r\n")
   pass
 
+# main WSGI application; run this
 def application(env, start_response):
   method = env["REQUEST_METHOD"].upper()
   page = sanitize_path(env["PATH_INFO"])
