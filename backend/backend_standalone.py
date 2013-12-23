@@ -29,6 +29,10 @@ if len(sys.argv) > 1:
     pass
   pass
 
+if port < 0 or port > 65535:
+  help()
+  pass
+
 print "starting on " + (host if host else "localhost") + " port " + str(port)
 httpd = make_server(host, port, backend.application)
 print "serving..."
